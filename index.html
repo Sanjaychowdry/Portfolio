@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Personal portfolio of Alex Carter — Frontend Developer & UI Designer." />
+  <title>Alex Carter · Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Progress bar -->
+  <div class="scroll-progress" id="scrollProgress"></div>
+
+  <!-- Navigation -->
+  <header class="nav" id="nav">
+    <div class="nav__inner container">
+      <a href="#home" class="nav__logo">AC<span>.</span></a>
+
+      <nav class="nav__links" id="navLinks">
+        <a href="#home" class="nav__link">Home</a>
+        <a href="#about" class="nav__link">About</a>
+        <a href="#skills" class="nav__link">Skills</a>
+        <a href="#projects" class="nav__link">Projects</a>
+        <a href="#contact" class="nav__link">Contact</a>
+      </nav>
+
+      <div class="nav__actions">
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle color theme">
+          <svg class="icon-sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+        </button>
+        <button class="nav__burger" id="navBurger" aria-label="Toggle menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero section" id="home">
+      <div class="hero__bg" aria-hidden="true">
+        <span class="blob blob--1"></span>
+        <span class="blob blob--2"></span>
+        <span class="grid-overlay"></span>
+      </div>
+      <div class="container hero__inner">
+        <p class="hero__eyebrow reveal">👋 Hi there, I'm</p>
+        <h1 class="hero__title reveal">
+          Alex Carter
+          <span class="hero__title-accent">Frontend Developer<br />&amp; UI Designer</span>
+        </h1>
+        <p class="hero__subtitle reveal">
+          I craft fast, accessible, and beautiful web experiences — turning
+          ideas into pixel-perfect interfaces that people love to use.
+        </p>
+        <div class="hero__cta reveal">
+          <a href="#projects" class="btn btn--primary">View My Work</a>
+          <a href="#contact" class="btn btn--ghost">Get In Touch</a>
+        </div>
+        <div class="hero__socials reveal">
+          <a href="#" aria-label="GitHub" class="social-link">GitHub</a>
+          <a href="#" aria-label="LinkedIn" class="social-link">LinkedIn</a>
+          <a href="#" aria-label="Twitter" class="social-link">Twitter</a>
+        </div>
+      </div>
+      <a href="#about" class="hero__scroll" aria-label="Scroll down">
+        <span class="mouse"><span class="wheel"></span></span>
+      </a>
+    </section>
+
+    <!-- About -->
+    <section class="section about" id="about">
+      <div class="container">
+        <header class="section__head reveal">
+          <span class="section__tag">01 — About</span>
+          <h2 class="section__title">A bit about me</h2>
+        </header>
+        <div class="about__grid">
+          <div class="about__media reveal">
+            <div class="about__avatar">AC</div>
+            <div class="about__badge">5+ yrs<br /><small>experience</small></div>
+          </div>
+          <div class="about__content reveal">
+            <p>
+              I'm a frontend developer based in San Francisco with a passion for
+              building delightful digital products. I specialize in turning
+              complex problems into simple, elegant interfaces.
+            </p>
+            <p>
+              When I'm not coding, you'll find me sketching design concepts,
+              contributing to open source, or chasing the perfect cup of coffee.
+            </p>
+            <ul class="about__facts">
+              <li><strong>40+</strong><span>Projects shipped</span></li>
+              <li><strong>30+</strong><span>Happy clients</span></li>
+              <li><strong>12</strong><span>Open-source repos</span></li>
+            </ul>
+            <a href="#" class="btn btn--primary" download>Download Résumé</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills -->
+    <section class="section skills" id="skills">
+      <div class="container">
+        <header class="section__head reveal">
+          <span class="section__tag">02 — Skills</span>
+          <h2 class="section__title">Tools I work with</h2>
+        </header>
+        <div class="skills__grid">
+          <article class="skill-card reveal">
+            <h3>Frontend</h3>
+            <p>HTML5, CSS3, JavaScript (ES2023+), TypeScript, React, Vue</p>
+            <div class="skill-bar"><span style="--val: 95%"></span></div>
+          </article>
+          <article class="skill-card reveal">
+            <h3>Styling</h3>
+            <p>Tailwind, Sass, CSS Modules, Framer Motion, GSAP</p>
+            <div class="skill-bar"><span style="--val: 90%"></span></div>
+          </article>
+          <article class="skill-card reveal">
+            <h3>Tooling</h3>
+            <p>Vite, Webpack, Git, Figma, Storybook, Jest</p>
+            <div class="skill-bar"><span style="--val: 85%"></span></div>
+          </article>
+          <article class="skill-card reveal">
+            <h3>Backend</h3>
+            <p>Node.js, Express, REST, GraphQL, PostgreSQL</p>
+            <div class="skill-bar"><span style="--val: 75%"></span></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects -->
+    <section class="section projects" id="projects">
+      <div class="container">
+        <header class="section__head reveal">
+          <span class="section__tag">03 — Projects</span>
+          <h2 class="section__title">Selected work</h2>
+        </header>
+        <div class="projects__grid">
+          <article class="project-card reveal">
+            <div class="project-card__thumb" data-emoji="🛍️"></div>
+            <div class="project-card__body">
+              <h3>Nimbus Commerce</h3>
+              <p>A headless e-commerce storefront with instant search and a buttery checkout flow.</p>
+              <ul class="tags"><li>React</li><li>TypeScript</li><li>Stripe</li></ul>
+              <div class="project-card__links">
+                <a href="#">Live Demo →</a>
+                <a href="#">Code →</a>
+              </div>
+            </div>
+          </article>
+          <article class="project-card reveal">
+            <div class="project-card__thumb" data-emoji="📊"></div>
+            <div class="project-card__body">
+              <h3>Pulse Analytics</h3>
+              <p>Real-time dashboard visualizing millions of events with smooth, performant charts.</p>
+              <ul class="tags"><li>Vue</li><li>D3.js</li><li>WebSockets</li></ul>
+              <div class="project-card__links">
+                <a href="#">Live Demo →</a>
+                <a href="#">Code →</a>
+              </div>
+            </div>
+          </article>
+          <article class="project-card reveal">
+            <div class="project-card__thumb" data-emoji="🎵"></div>
+            <div class="project-card__body">
+              <h3>Waveform</h3>
+              <p>A collaborative music app with synced playlists and a custom audio engine.</p>
+              <ul class="tags"><li>Next.js</li><li>Web Audio</li><li>Supabase</li></ul>
+              <div class="project-card__links">
+                <a href="#">Live Demo →</a>
+                <a href="#">Code →</a>
+              </div>
+            </div>
+          </article>
+          <article class="project-card reveal">
+            <div class="project-card__thumb" data-emoji="🗺️"></div>
+            <div class="project-card__body">
+              <h3>Wander</h3>
+              <p>A travel-planning PWA with offline maps and AI-powered itinerary suggestions.</p>
+              <ul class="tags"><li>React</li><li>Mapbox</li><li>PWA</li></ul>
+              <div class="project-card__links">
+                <a href="#">Live Demo →</a>
+                <a href="#">Code →</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="section contact" id="contact">
+      <div class="container">
+        <header class="section__head reveal">
+          <span class="section__tag">04 — Contact</span>
+          <h2 class="section__title">Let's build something</h2>
+          <p class="section__lead">
+            Have a project in mind or just want to say hi? My inbox is always open.
+          </p>
+        </header>
+        <form class="contact__form reveal" id="contactForm" novalidate>
+          <div class="field">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" placeholder="Jane Doe" required />
+            <small class="field__error" data-for="name"></small>
+          </div>
+          <div class="field">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="jane@example.com" required />
+            <small class="field__error" data-for="email"></small>
+          </div>
+          <div class="field field--full">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="5" placeholder="Tell me about your project..." required></textarea>
+            <small class="field__error" data-for="message"></small>
+          </div>
+          <button type="submit" class="btn btn--primary btn--block">Send Message</button>
+          <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <p>© <span id="year"></span> Alex Carter. Built with care.</p>
+      <a href="#home" class="footer__top">Back to top ↑</a>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
