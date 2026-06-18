@@ -2,241 +2,934 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Personal portfolio of Alex Carter — Frontend Developer & UI Designer." />
-  <title>Alex Carter · Portfolio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="description" content="Sanjay chowdry — Senior iOS Developer specializing in Swift, SwiftUI, and UIKit." />
+  <title>Sanjay chowdry · Senior iOS Developer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ============================ Tokens ============================ */
+    :root {
+      --bg: #08090d;
+      --bg-soft: #0e1016;
+      --surface: rgba(255, 255, 255, 0.04);
+      --surface-strong: rgba(255, 255, 255, 0.07);
+      --text: #f2f4f8;
+      --text-muted: #8b93a7;
+      --border: rgba(255, 255, 255, 0.09);
+      --border-strong: rgba(255, 255, 255, 0.16);
+      --accent: #ffb302;
+      --accent-2: #ffe45e;
+      --accent-3: #ff8a00;
+      --ink: #1a1400;
+      --grad: linear-gradient(120deg, #ff9d00, #ffe45e);
+      --grad-warm: linear-gradient(120deg, #ff7a00, #ffc402);
+      --max: 1140px;
+      --radius: 22px;
+      --radius-lg: 30px;
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+      --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+      --font: "Inter", system-ui, -apple-system, Segoe UI, sans-serif;
+      --display: "Space Grotesk", var(--font);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    /* ---- Content protection: block text selection site-wide ---- */
+    body { -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
+    /* …but keep form fields fully usable (typing, selecting inside them) */
+    input, textarea { -webkit-user-select: text; -moz-user-select: text; -ms-user-select: text; user-select: text; }
+    /* Stop image dragging/saving via drag */
+    img { -webkit-user-drag: none; user-drag: none; pointer-events: none; }
+    /* Re-enable interaction on the screenshot button so the lightbox still opens */
+    .iphone, .iphone * { pointer-events: auto; }
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      position: relative;
+    }
+    /* Subtle grain texture overlay */
+    body::after {
+      content: "";
+      position: fixed; inset: 0; z-index: 1; pointer-events: none;
+      opacity: 0.035;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+    a { color: inherit; text-decoration: none; }
+    ul { list-style: none; }
+    .container { width: min(100% - 2.5rem, var(--max)); margin-inline: auto; position: relative; z-index: 2; }
+    .section { padding: clamp(4.5rem, 10vw, 8rem) 0; position: relative; }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-size: 0.78rem; font-weight: 600; letter-spacing: 0.08em;
+      color: var(--text); text-transform: uppercase;
+      padding: 0.4rem 0.9rem; border-radius: 999px;
+      background: var(--surface); border: 1px solid var(--border);
+      backdrop-filter: blur(10px);
+    }
+    .eyebrow::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--accent-2); box-shadow: 0 0 10px var(--accent-2); }
+
+    /* Live availability badge with pulsing dot */
+    .status-badge {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      padding: 0.5rem 1.1rem; border-radius: 999px;
+      background: var(--surface); border: 1px solid var(--border);
+      -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+      font-size: 0.83rem; font-weight: 600; letter-spacing: 0.02em; color: var(--text);
+    }
+    .status-dot { position: relative; width: 9px; height: 9px; border-radius: 50%; background: #35d07f; flex-shrink: 0; }
+    .status-dot::after { content: ""; position: absolute; inset: 0; border-radius: 50%; box-shadow: 0 0 0 0 rgba(53, 208, 127, 0.7); animation: statusPulse 2s ease-out infinite; }
+    @keyframes statusPulse { to { box-shadow: 0 0 0 9px rgba(53, 208, 127, 0); } }
+
+    /* Gradient highlight word + contact lead */
+    .section__title .grad {
+      background: linear-gradient(120deg, #ff8a00, #ffe45e, #ffb302); background-size: 200% auto;
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      animation: shimmer 6s linear infinite;
+    }
+    .contact__lead { margin-top: 0.9rem; color: var(--text-muted); font-size: 1.05rem; }
+
+    /* ============================ Aurora background ============================ */
+    .aurora { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+    .aurora span { position: absolute; border-radius: 50%; filter: blur(90px); opacity: 0.55; mix-blend-mode: screen; animation: drift 22s ease-in-out infinite; }
+    .aurora .a1 { width: 540px; height: 540px; background: #ffb302; top: -160px; left: -120px; }
+    .aurora .a2 { width: 460px; height: 460px; background: #ffe45e; top: 20%; right: -140px; animation-delay: -7s; }
+    .aurora .a3 { width: 420px; height: 420px; background: #ff8a00; bottom: -160px; left: 30%; animation-delay: -14s; }
+    @keyframes drift {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(60px, -50px) scale(1.12); }
+      66% { transform: translate(-40px, 40px) scale(0.95); }
+    }
+
+    /* ============================ Buttons ============================ */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 0.55rem;
+      padding: 0.9rem 1.7rem; font: inherit; font-weight: 600; font-size: 0.97rem;
+      border-radius: 999px; border: 1px solid transparent; cursor: pointer;
+      position: relative; overflow: hidden; isolation: isolate;
+      transition: transform 0.3s var(--spring), box-shadow 0.3s var(--ease), border-color 0.3s var(--ease);
+    }
+    .btn--primary { background: var(--grad); color: var(--ink); box-shadow: 0 8px 30px -8px rgba(255, 179, 2, 0.55); }
+    .btn--primary::before {
+      content: ""; position: absolute; inset: 0; z-index: -1;
+      background: var(--grad-warm); opacity: 0; transition: opacity 0.35s var(--ease);
+    }
+    .btn--primary:hover { transform: translateY(-3px); box-shadow: 0 16px 40px -10px rgba(255, 179, 2, 0.7); }
+    .btn--primary:hover::before { opacity: 1; }
+    .btn--ghost { background: var(--surface); color: var(--text); border-color: var(--border-strong); backdrop-filter: blur(10px); }
+    .btn--ghost:hover { transform: translateY(-3px); border-color: var(--accent); background: var(--surface-strong); }
+    .btn__arrow { transition: transform 0.3s var(--spring); }
+    .btn:hover .btn__arrow { transform: translateX(4px); }
+
+    /* ============================ Top scrim (fade content under nav) ============================ */
+    .top-scrim {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 800;
+      height: clamp(150px, 20vh, 210px); pointer-events: none;
+      opacity: 0; transition: opacity 0.4s var(--ease);
+      /* Progressive blur — frosts the content (and the aurora behind it) without
+         painting a color, so it blends with whatever is behind, including the
+         yellow glow. The brightness() cancels the haze the blur would otherwise
+         add by spreading the bright aurora. Strongest at the top, fading below. */
+      -webkit-backdrop-filter: blur(14px) brightness(0.88);
+      backdrop-filter: blur(14px) brightness(0.88);
+      -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 38%, transparent 100%);
+      mask-image: linear-gradient(to bottom, #000 0%, #000 38%, transparent 100%);
+    }
+    .top-scrim.show { opacity: 1; }
+
+    /* ============================ Navbar ============================ */
+    .nav { position: fixed; inset: 1rem 0 auto 0; z-index: 900; transition: inset 0.35s var(--ease); }
+    .nav__inner {
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+      padding: 0.7rem 0.7rem 0.7rem 1.4rem;
+      border-radius: 999px; border: 1px solid var(--border);
+      background: rgba(14, 16, 22, 0.55); backdrop-filter: blur(18px) saturate(160%);
+      transition: background 0.35s var(--ease), box-shadow 0.35s var(--ease), border-color 0.35s var(--ease);
+    }
+    .nav.scrolled .nav__inner { background: rgba(14, 16, 22, 0.8); box-shadow: 0 12px 40px -16px rgba(0, 0, 0, 0.7); border-color: var(--border-strong); }
+    .nav__logo { font-family: var(--display); font-weight: 700; font-size: 1.3rem; letter-spacing: -0.02em; }
+    .nav__logo span { color: var(--accent-2); }
+    .nav__links { display: flex; gap: 0.2rem; }
+    .nav__link {
+      padding: 0.5rem 1rem; font-size: 0.92rem; font-weight: 500;
+      color: var(--text-muted); border-radius: 999px;
+      transition: color 0.25s var(--ease), background 0.25s var(--ease);
+    }
+    .nav__link:hover, .nav__link.active { color: var(--text); background: var(--surface-strong); }
+    .nav__cta { padding: 0.6rem 1.3rem; font-size: 0.9rem; }
+    .nav__burger {
+      display: none; flex-direction: column; gap: 5px;
+      width: 44px; height: 44px; align-items: center; justify-content: center;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 999px; cursor: pointer;
+    }
+    .nav__burger span { width: 18px; height: 2px; background: var(--text); border-radius: 2px; transition: transform 0.3s var(--ease), opacity 0.3s var(--ease); }
+    .nav__burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav__burger.open span:nth-child(2) { opacity: 0; }
+    .nav__burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ============================ Hero ============================ */
+    .hero { min-height: 100vh; display: grid; place-items: center; text-align: center; }
+    .hero__spotlight {
+      position: absolute; inset: 0; z-index: 1; pointer-events: none;
+      background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 30%), rgba(255, 179, 2, 0.2), transparent 60%);
+      transition: background 0.2s ease;
+    }
+    .hero__inner { max-width: 800px; }
+    .hero__badge { margin-bottom: 1.6rem; }
+    .hero h1 { font-family: var(--display); font-size: clamp(2.6rem, 8vw, 5.2rem); line-height: 1.02; letter-spacing: -0.035em; font-weight: 700; }
+    .hero h1 .grad { background: linear-gradient(120deg, #ff8a00, #ffe45e, #ffb302); background-size: 200% auto; -webkit-background-clip: text; background-clip: text; color: transparent; animation: shimmer 6s linear infinite; }
+    @keyframes shimmer { to { background-position: 200% center; } }
+    .hero p { color: var(--text-muted); font-size: clamp(1.02rem, 2.2vw, 1.22rem); max-width: 580px; margin: 1.5rem auto 0; }
+    .hero__cta { display: flex; gap: 0.9rem; justify-content: center; flex-wrap: wrap; margin-top: 2.4rem; }
+    .hero__scroll { position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); z-index: 2; }
+    .mouse { display: block; width: 26px; height: 42px; border: 2px solid var(--border-strong); border-radius: 14px; }
+    .mouse::before { content: ""; display: block; width: 4px; height: 8px; margin: 7px auto 0; border-radius: 2px; background: var(--accent-2); animation: wheel 1.8s ease-in-out infinite; }
+    @keyframes wheel { 0% { opacity: 0; transform: translateY(0); } 40% { opacity: 1; } 100% { opacity: 0; transform: translateY(14px); } }
+
+    /* ============================ Section heads ============================ */
+    .section__head { max-width: 640px; margin-bottom: 3.2rem; }
+    .section__head.center { margin-inline: auto; text-align: center; }
+    .section__title { font-family: var(--display); font-size: clamp(2rem, 5.5vw, 3.2rem); font-weight: 700; letter-spacing: -0.025em; line-height: 1.08; margin-top: 1rem; }
+
+    /* ============================ About (bento) ============================ */
+    .bento { display: grid; grid-template-columns: repeat(3, 1fr); grid-auto-rows: minmax(150px, auto); gap: 1.1rem; }
+    .card {
+      position: relative; padding: 1.8rem; border-radius: var(--radius);
+      background: var(--surface); border: 1px solid var(--border);
+      backdrop-filter: blur(12px); overflow: hidden;
+      transition: transform 0.4s var(--ease), border-color 0.4s var(--ease), background 0.4s var(--ease);
+    }
+    .card:hover { transform: translateY(-5px); border-color: var(--border-strong); background: var(--surface-strong); }
+    .card__glow { position: absolute; width: 280px; height: 280px; border-radius: 50%; filter: blur(70px); opacity: 0; transition: opacity 0.4s var(--ease); pointer-events: none; }
+    .card:hover .card__glow { opacity: 0.4; }
+    .card--intro { grid-column: span 2; grid-row: span 2; display: flex; flex-direction: column; justify-content: center; }
+    .card--intro .card__glow { background: var(--accent); top: -60px; right: -40px; }
+    .card--intro h3 { font-family: var(--display); font-size: clamp(1.4rem, 3vw, 2rem); letter-spacing: -0.02em; margin-bottom: 0.8rem; }
+    .card--intro p { color: var(--text-muted); }
+    .resume-actions { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 1.6rem; }
+    .resume-actions .btn { padding: 0.75rem 1.4rem; font-size: 0.92rem; }
+    .resume-actions .btn svg { width: 18px; height: 18px; }
+    .card--avatar { grid-row: span 2; display: grid; place-items: center; background: var(--grad); overflow: hidden; }
+
+    /* iPhone mockup */
+    /* The screenshot defines the size; the frame wraps it exactly so the
+       whole image (its status bar, Dynamic Island and home indicator) shows
+       with no cropping or stretching. */
+    .iphone {
+      position: relative; display: inline-flex;
+      background: #0b0b0f; border: 0; border-radius: 34px; padding: 6px;
+      appearance: none; -webkit-appearance: none; cursor: zoom-in;
+      box-shadow: 0 18px 40px -12px rgba(0, 0, 0, 0.55), inset 0 0 0 1.5px rgba(255, 255, 255, 0.08);
+      transform: rotate(-4deg);
+    }
+    .iphone:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+    .iphone__screen { overflow: hidden; border-radius: 28px; background: #ededed; line-height: 0; transition: transform 0.18s var(--ease); }
+    .iphone:active .iphone__screen { transform: scale(0.95); }
+    .iphone__screen img { display: block; height: clamp(210px, 26vw, 280px); width: auto; image-rendering: auto; }
+
+    /* Lightbox — full-size, crisp view of the screenshot */
+    .lightbox {
+      position: fixed; inset: 0; z-index: 1000;
+      display: grid; place-items: center; padding: 5vh 5vw;
+      background: rgba(5, 6, 10, 0.86); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+      opacity: 0; visibility: hidden; cursor: zoom-out;
+      transition: opacity 0.3s var(--ease), visibility 0.3s var(--ease);
+    }
+    .lightbox.open { opacity: 1; visibility: visible; }
+    /* Large, upright phone frame inside the lightbox.
+       A titanium-style bezel + bright rim + halo so the frame stays
+       visible against the dark backdrop. */
+    .lightbox .iphone--lg {
+      transform: none; animation: none; cursor: zoom-out;
+      background: linear-gradient(150deg, #5a5a62, #15151a 32%, #0c0c10 64%, #44444c);
+      box-shadow:
+        0 0 0 1.5px rgba(255, 255, 255, 0.28),
+        0 30px 80px -18px rgba(0, 0, 0, 0.9),
+        0 0 70px rgba(255, 255, 255, 0.08);
+    }
+    .lightbox .iphone--lg .iphone__screen img { height: min(80vh, 720px); }
+    .lightbox.open .iphone--lg { animation: lightboxIn 0.55s var(--spring) both; }
+    @keyframes lightboxIn {
+      0% { opacity: 0; transform: scale(0.5) translateY(70px) rotate(-4deg); }
+      100% { opacity: 1; transform: scale(1) translateY(0) rotate(0); }
+    }
+    .card--stat { display: flex; flex-direction: column; justify-content: center; }
+    .card--stat .num { font-family: var(--display); font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 700; background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .card--stat .label { color: var(--text-muted); font-size: 0.9rem; }
+    .card--stat:nth-of-type(3) .card__glow { background: var(--accent-2); bottom: -60px; left: -40px; }
+    .card--stat:nth-of-type(4) .card__glow { background: var(--accent-3); bottom: -60px; right: -40px; }
+
+    /* ============================ Contact ============================ */
+    .contact__wrap {
+      max-width: 720px; margin-inline: auto; padding: clamp(1.6rem, 5vw, 3rem);
+      border-radius: var(--radius-lg); border: 1px solid var(--border);
+      background: var(--surface); backdrop-filter: blur(14px);
+      position: relative; overflow: hidden;
+    }
+    .contact__wrap::before { content: ""; position: absolute; top: -100px; left: 50%; transform: translateX(-50%); width: 400px; height: 200px; background: var(--grad); filter: blur(90px); opacity: 0.25; pointer-events: none; }
+    .contact__form { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; position: relative; }
+    .field { display: flex; flex-direction: column; gap: 0.45rem; }
+    .field--full { grid-column: 1 / -1; }
+    .field label { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); }
+    .field input, .field textarea {
+      font: inherit; font-size: 0.97rem; padding: 0.9rem 1.05rem; color: var(--text);
+      background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 14px; resize: vertical;
+      transition: border-color 0.25s var(--ease), box-shadow 0.25s var(--ease), background 0.25s var(--ease);
+    }
+    .field input::placeholder, .field textarea::placeholder { color: #5b6276; }
+    .field input:focus, .field textarea:focus { outline: none; border-color: var(--accent); background: rgba(255,179,2,0.06); box-shadow: 0 0 0 4px rgba(255, 179, 2, 0.18); }
+    .contact__form .btn { grid-column: 1 / -1; }
+    .form-status { grid-column: 1 / -1; min-height: 1.2em; font-size: 0.92rem; text-align: center; }
+    .form-status.success { color: #3ee08a; }
+    .form-status.error { color: #ff6b8a; }
+    .contact__details { display: flex; gap: 1.8rem; justify-content: center; flex-wrap: wrap; margin-top: 2rem; color: var(--text-muted); font-size: 0.95rem; }
+    .contact__details span { display: inline-flex; align-items: center; gap: 0.55rem; }
+    .contact__details span:last-child { gap: 0.38rem; }
+    .contact__details svg { width: 18px; height: 18px; color: var(--accent); flex-shrink: 0; }
+    .contact__details a:hover { color: var(--accent-2); }
+
+    /* ============================ Footer ============================ */
+    .footer { border-top: 1px solid var(--border); padding: 2.2rem 0; text-align: center; color: var(--text-muted); font-size: 0.9rem; }
+
+    /* ============================ Chatbot ============================ */
+    .chatbot { position: fixed; right: clamp(1rem, 3vw, 1.8rem); bottom: clamp(1rem, 3vw, 1.8rem); z-index: 950; }
+    .chatbot__toggle {
+      width: 52px; height: 52px; border-radius: 50%; border: none; cursor: pointer;
+      background: var(--grad); color: var(--ink); display: grid; place-items: center;
+      box-shadow: 0 12px 34px -8px rgba(255, 179, 2, 0.6);
+      transition: transform 0.3s var(--spring), box-shadow 0.3s var(--ease);
+    }
+    .chatbot__toggle:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 18px 44px -10px rgba(255, 179, 2, 0.75); }
+    .chatbot__toggle svg { width: 23px; height: 23px; }
+    .chatbot__toggle .icon-close { display: none; }
+    .chatbot.open .chatbot__toggle .icon-chat { display: none; }
+    .chatbot.open .chatbot__toggle .icon-close { display: block; }
+    /* Modern notification badge on the launcher before first interaction */
+    .chatbot__ping {
+      position: absolute; top: -4px; right: -4px;
+      display: flex; align-items: center; gap: 2.5px;
+      padding: 5px 5px;
+      border-radius: 999px;
+      background: #11141b;
+      border: 1.5px solid var(--bg);
+      box-shadow: 0 3px 9px -3px rgba(0, 0, 0, 0.6);
+    }
+    /* Three bouncing dots — classic "typing" indicator */
+    .chatbot__ping i {
+      width: 3px; height: 3px; border-radius: 50%;
+      background: #fff;
+      animation: typingBounce 1.4s ease-in-out infinite;
+    }
+    .chatbot__ping i:nth-child(2) { animation-delay: 0.2s; }
+    .chatbot__ping i:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes typingBounce {
+      0%, 60%, 100% { transform: translateY(1px); opacity: 0.45; }
+      30% { transform: translateY(-1px); opacity: 1; }
+    }
+    .chatbot.open .chatbot__ping, .chatbot.greeted .chatbot__ping { display: none; }
+    @media (prefers-reduced-motion: reduce) { .chatbot__ping i { animation: none; opacity: 0.9; } }
+
+    .chatbot__panel {
+      position: absolute; right: 0; bottom: calc(100% + 14px);
+      width: min(320px, calc(100vw - 2rem)); height: 400px; max-height: calc(100vh - 7rem);
+      display: flex; flex-direction: column; overflow: hidden;
+      background: rgba(14, 16, 22, 0.92); -webkit-backdrop-filter: blur(20px) saturate(160%); backdrop-filter: blur(20px) saturate(160%);
+      border: 1px solid var(--border-strong); border-radius: var(--radius);
+      box-shadow: 0 30px 70px -20px rgba(0, 0, 0, 0.8);
+      transform-origin: bottom right; opacity: 0; visibility: hidden; transform: translateY(16px) scale(0.96);
+      transition: opacity 0.3s var(--ease), transform 0.3s var(--spring), visibility 0.3s var(--ease);
+    }
+    .chatbot.open .chatbot__panel { opacity: 1; visibility: visible; transform: none; }
+
+    .chatbot__header { display: flex; align-items: center; gap: 0.7rem; padding: 0.9rem 1rem; border-bottom: 1px solid var(--border); background: var(--surface); }
+    .chatbot__avatar { width: 38px; height: 38px; border-radius: 50%; background: var(--grad); color: var(--ink); display: grid; place-items: center; font-family: var(--display); font-weight: 700; flex-shrink: 0; }
+    .chatbot__header strong { display: block; font-size: 0.88rem; }
+    .chatbot__header small { display: flex; align-items: center; gap: 0.4rem; font-size: 0.72rem; color: var(--text-muted); }
+    .chatbot__header small .status-dot { width: 7px; height: 7px; }
+    .chatbot__header > div { flex: 1; }
+    .chatbot__close { display: grid; place-items: center; width: 32px; height: 32px; background: none; border: none; color: var(--text-muted); cursor: pointer; border-radius: 50%; transition: color 0.2s var(--ease), background 0.2s var(--ease); }
+    .chatbot__close svg { width: 17px; height: 17px; }
+    .chatbot__close:hover { color: var(--text); background: var(--surface-strong); }
+
+    .chatbot__body { flex: 1; overflow-y: auto; padding: 1.1rem; display: flex; flex-direction: column; gap: 0.7rem; }
+    .chat-msg { max-width: 80%; padding: 0.55rem 0.85rem; border-radius: 16px; font-size: 0.84rem; line-height: 1.45; animation: msgIn 0.35s var(--ease) both; }
+    .chat-msg--bot { align-self: flex-start; background: var(--surface-strong); border: 1px solid var(--border); border-bottom-left-radius: 5px; }
+    .chat-msg--user { align-self: flex-end; background: var(--grad); color: var(--ink); font-weight: 500; border-bottom-right-radius: 5px; }
+    @keyframes msgIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+    .chat-again { align-self: flex-start; margin-top: -0.55rem; background: none; border: none; color: var(--accent); font: inherit; font-size: 0.78rem; cursor: pointer; padding: 0; text-decoration: underline; }
+    .chat-again:hover { opacity: 0.8; }
+
+    .chatbot__input { display: flex; gap: 0.5rem; padding: 0.8rem; border-top: 1px solid var(--border); background: var(--surface); }
+    .chatbot__input.hidden { display: none; }
+    .chatbot__input input { flex: 1; font: inherit; font-size: 0.84rem; padding: 0.6rem 0.85rem; color: var(--text); background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 12px; }
+    .chatbot__input input::placeholder { color: #5b6276; }
+    .chatbot__input input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(255, 179, 2, 0.18); }
+    .chatbot__input button { width: 42px; flex-shrink: 0; border: none; border-radius: 12px; background: var(--grad); color: var(--ink); font-size: 1.1rem; cursor: pointer; transition: transform 0.2s var(--spring); }
+    .chatbot__input button:hover { transform: scale(1.08); }
+
+    @media (prefers-reduced-motion: reduce) {
+      .chat-msg { animation: none; }
+    }
+
+    /* ============================ Reveal + layered motion ============================ */
+    .reveal { opacity: 0; transform: translateY(26px); transition: opacity 0.8s var(--ease), transform 0.8s var(--ease); }
+    .reveal.visible { opacity: 1; transform: none; }
+    /* Stagger the bento cards as they reveal for a cascading feel */
+    .bento .reveal:nth-child(1) { transition-delay: 0.04s; }
+    .bento .reveal:nth-child(2) { transition-delay: 0.12s; }
+    .bento .reveal:nth-child(3) { transition-delay: 0.20s; }
+    .bento .reveal:nth-child(4) { transition-delay: 0.28s; }
+    .bento .reveal:nth-child(5) { transition-delay: 0.36s; }
+
+    /* Hero entrance — staggered rise-in */
+    .hero__inner > * { opacity: 0; animation: riseIn 0.9s var(--ease) forwards; }
+    .hero__inner > *:nth-child(1) { animation-delay: 0.15s; }
+    .hero__inner > *:nth-child(2) { animation-delay: 0.30s; }
+    .hero__inner > *:nth-child(3) { animation-delay: 0.45s; }
+    .hero__inner > *:nth-child(4) { animation-delay: 0.60s; }
+    .hero__scroll { opacity: 0; animation: riseIn 0.9s var(--ease) 0.9s forwards; }
+    @keyframes riseIn { from { opacity: 0; transform: translateY(34px); } to { opacity: 1; transform: none; } }
+
+    /* Parallax layers — wrapper moves (JS), inner orb keeps drifting */
+    .aurora .orb-layer { position: absolute; inset: 0; will-change: transform; transition: transform 0.5s var(--ease); }
+    .hero__inner { will-change: transform; }
+
+    /* 3D tilt setup for the bento cards */
+    .bento { perspective: 1100px; }
+    .card { transform-style: preserve-3d; transition: transform 0.4s var(--ease), border-color 0.4s var(--ease), background 0.4s var(--ease); }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+      .reveal { opacity: 1; transform: none; }
+      .hero__inner > *, .hero__scroll { opacity: 1 !important; }
+      .aurora .orb-layer, .hero__inner, .card { transform: none !important; }
+    }
+
+    /* ============================ Responsive ============================ */
+    @media (max-width: 820px) {
+      .bento { grid-template-columns: 1fr 1fr; }
+      .card--intro { grid-column: span 2; grid-row: auto; }
+      .card--avatar { grid-row: auto; min-height: 160px; }
+      .nav__links {
+        position: fixed; inset: 0 0 0 auto; width: min(80%, 320px);
+        flex-direction: column; justify-content: center; gap: 1rem; padding: 2rem;
+        background: rgba(14, 16, 22, 0.96); backdrop-filter: blur(20px);
+        border-left: 1px solid var(--border);
+        transform: translateX(100%); transition: transform 0.4s var(--ease);
+      }
+      .nav__links.open { transform: translateX(0); }
+      .nav__link { font-size: 1.2rem; }
+      .nav__burger { display: flex; }
+      .nav__cta { display: none; }
+    }
+    @media (max-width: 540px) {
+      .bento { grid-template-columns: 1fr; }
+      .card--intro, .card--avatar { grid-column: auto; }
+      .contact__form { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
-  <!-- Progress bar -->
-  <div class="scroll-progress" id="scrollProgress"></div>
+  <div class="aurora" aria-hidden="true">
+    <div class="orb-layer" data-depth="26"><span class="a1"></span></div>
+    <div class="orb-layer" data-depth="16"><span class="a2"></span></div>
+    <div class="orb-layer" data-depth="38"><span class="a3"></span></div>
+  </div>
 
-  <!-- Navigation -->
+  <div class="top-scrim" id="topScrim" aria-hidden="true"></div>
+
+  <!-- ============================ Navbar ============================ -->
   <header class="nav" id="nav">
     <div class="nav__inner container">
-      <a href="#home" class="nav__logo">AC<span>.</span></a>
-
+      <a href="#home" class="nav__logo">Chowdry<span>.</span></a>
       <nav class="nav__links" id="navLinks">
         <a href="#home" class="nav__link">Home</a>
         <a href="#about" class="nav__link">About</a>
-        <a href="#skills" class="nav__link">Skills</a>
-        <a href="#projects" class="nav__link">Projects</a>
+        <a href="resume/Sanjay%20chowdry.pdf" class="nav__link" target="_blank" rel="noopener noreferrer">Resume</a>
         <a href="#contact" class="nav__link">Contact</a>
       </nav>
-
-      <div class="nav__actions">
-        <button class="theme-toggle" id="themeToggle" aria-label="Toggle color theme">
-          <svg class="icon-sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-          <svg class="icon-moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-        </button>
-        <button class="nav__burger" id="navBurger" aria-label="Toggle menu" aria-expanded="false">
-          <span></span><span></span><span></span>
-        </button>
-      </div>
+      <a href="#contact" class="btn btn--primary nav__cta">Let's talk</a>
+      <button class="nav__burger" id="navBurger" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </header>
 
   <main>
-    <!-- Hero -->
+    <!-- ============================ Hero ============================ -->
     <section class="hero section" id="home">
-      <div class="hero__bg" aria-hidden="true">
-        <span class="blob blob--1"></span>
-        <span class="blob blob--2"></span>
-        <span class="grid-overlay"></span>
-      </div>
+      <div class="hero__spotlight" id="spotlight" aria-hidden="true"></div>
       <div class="container hero__inner">
-        <p class="hero__eyebrow reveal">👋 Hi there, I'm</p>
-        <h1 class="hero__title reveal">
-          Alex Carter
-          <span class="hero__title-accent">Frontend Developer<br />&amp; UI Designer</span>
-        </h1>
-        <p class="hero__subtitle reveal">
-          I craft fast, accessible, and beautiful web experiences — turning
-          ideas into pixel-perfect interfaces that people love to use.
-        </p>
-        <div class="hero__cta reveal">
-          <a href="#projects" class="btn btn--primary">View My Work</a>
-          <a href="#contact" class="btn btn--ghost">Get In Touch</a>
-        </div>
-        <div class="hero__socials reveal">
-          <a href="#" aria-label="GitHub" class="social-link">GitHub</a>
-          <a href="#" aria-label="LinkedIn" class="social-link">LinkedIn</a>
-          <a href="#" aria-label="Twitter" class="social-link">Twitter</a>
+        <span class="status-badge hero__badge"><span class="status-dot"></span>Let's Bring It to Life</span>
+        <h1>Ideas into <span class="grad">iOS Apps</span></h1>
+        <p>I'm Sanjay chowdry — a senior iOS developer specializing in Swift, SwiftUI, and UIKit. I build fast, elegant, App Store–ready apps with an obsession for great user experience.</p>
+        <div class="hero__cta">
+          <a href="#about" class="btn btn--primary">Learn More <span class="btn__arrow">→</span></a>
+          <a href="#contact" class="btn btn--ghost">Contact Me</a>
         </div>
       </div>
-      <a href="#about" class="hero__scroll" aria-label="Scroll down">
-        <span class="mouse"><span class="wheel"></span></span>
-      </a>
+      <a href="#about" class="hero__scroll" aria-label="Scroll down"><span class="mouse"></span></a>
     </section>
 
-    <!-- About -->
+    <!-- ============================ About ============================ -->
     <section class="section about" id="about">
       <div class="container">
-        <header class="section__head reveal">
-          <span class="section__tag">01 — About</span>
-          <h2 class="section__title">A bit about me</h2>
-        </header>
-        <div class="about__grid">
-          <div class="about__media reveal">
-            <div class="about__avatar">AC</div>
-            <div class="about__badge">5+ yrs<br /><small>experience</small></div>
-          </div>
-          <div class="about__content reveal">
-            <p>
-              I'm a frontend developer based in San Francisco with a passion for
-              building delightful digital products. I specialize in turning
-              complex problems into simple, elegant interfaces.
-            </p>
-            <p>
-              When I'm not coding, you'll find me sketching design concepts,
-              contributing to open source, or chasing the perfect cup of coffee.
-            </p>
-            <ul class="about__facts">
-              <li><strong>40+</strong><span>Projects shipped</span></li>
-              <li><strong>30+</strong><span>Happy clients</span></li>
-              <li><strong>12</strong><span>Open-source repos</span></li>
-            </ul>
-            <a href="#" class="btn btn--primary" download>Download Résumé</a>
-          </div>
+        <div class="section__head reveal">
+          <span class="status-badge"><span class="status-dot"></span>About</span>
+          <h2 class="section__title">A little about me</h2>
         </div>
-      </div>
-    </section>
-
-    <!-- Skills -->
-    <section class="section skills" id="skills">
-      <div class="container">
-        <header class="section__head reveal">
-          <span class="section__tag">02 — Skills</span>
-          <h2 class="section__title">Tools I work with</h2>
-        </header>
-        <div class="skills__grid">
-          <article class="skill-card reveal">
-            <h3>Frontend</h3>
-            <p>HTML5, CSS3, JavaScript (ES2023+), TypeScript, React, Vue</p>
-            <div class="skill-bar"><span style="--val: 95%"></span></div>
+        <div class="bento">
+          <article class="card card--intro reveal">
+            <span class="card__glow"></span>
+            <h3>Building for iOS, end to end.</h3>
+            <p>I'm a senior iOS developer with a deep focus on Swift and SwiftUI. From architecture and clean MVVM/Combine codebases to pixel-perfect UI and smooth 60fps animations, I take apps from idea to the App Store. I care about performance, accessibility, and the little details that make an app feel native.</p>
+            <div class="resume-actions">
+              <a href="resume/Sanjay%20chowdry.pdf" class="btn btn--primary" target="_blank" rel="noopener noreferrer">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                View Resume
+              </a>
+              <a href="resume/Sanjay%20chowdry.pdf" class="btn btn--ghost" download="Sanjay-chowdry-resume.pdf">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><path d="M7 10l5 5 5-5"></path><path d="M12 15V3"></path></svg>
+                Download
+              </a>
+            </div>
           </article>
-          <article class="skill-card reveal">
-            <h3>Styling</h3>
-            <p>Tailwind, Sass, CSS Modules, Framer Motion, GSAP</p>
-            <div class="skill-bar"><span style="--val: 90%"></span></div>
+          <article class="card card--avatar reveal">
+            <button class="iphone" type="button" id="iphoneBtn" aria-label="View the dashboard design at full size">
+              <div class="iphone__screen">
+                <img src="images/dashboard-screen.png" alt="Dashboard UI designed by Sanjay chowdry" />
+              </div>
+            </button>
           </article>
-          <article class="skill-card reveal">
-            <h3>Tooling</h3>
-            <p>Vite, Webpack, Git, Figma, Storybook, Jest</p>
-            <div class="skill-bar"><span style="--val: 85%"></span></div>
+          <article class="card card--stat reveal">
+            <span class="card__glow"></span>
+            <span class="num">4</span><span class="label">Years building iOS</span>
           </article>
-          <article class="skill-card reveal">
-            <h3>Backend</h3>
-            <p>Node.js, Express, REST, GraphQL, PostgreSQL</p>
-            <div class="skill-bar"><span style="--val: 75%"></span></div>
+          <article class="card card--stat reveal">
+            <span class="card__glow"></span>
+            <span class="num">Swift</span><span class="label">SwiftUI &amp; UIKit</span>
+          </article>
+          <article class="card card--stat reveal">
+            <span class="card__glow"></span>
+            <span class="num">100%</span><span class="label">Native Swift codebase</span>
           </article>
         </div>
       </div>
     </section>
 
-    <!-- Projects -->
-    <section class="section projects" id="projects">
-      <div class="container">
-        <header class="section__head reveal">
-          <span class="section__tag">03 — Projects</span>
-          <h2 class="section__title">Selected work</h2>
-        </header>
-        <div class="projects__grid">
-          <article class="project-card reveal">
-            <div class="project-card__thumb" data-emoji="🛍️"></div>
-            <div class="project-card__body">
-              <h3>Nimbus Commerce</h3>
-              <p>A headless e-commerce storefront with instant search and a buttery checkout flow.</p>
-              <ul class="tags"><li>React</li><li>TypeScript</li><li>Stripe</li></ul>
-              <div class="project-card__links">
-                <a href="#">Live Demo →</a>
-                <a href="#">Code →</a>
-              </div>
-            </div>
-          </article>
-          <article class="project-card reveal">
-            <div class="project-card__thumb" data-emoji="📊"></div>
-            <div class="project-card__body">
-              <h3>Pulse Analytics</h3>
-              <p>Real-time dashboard visualizing millions of events with smooth, performant charts.</p>
-              <ul class="tags"><li>Vue</li><li>D3.js</li><li>WebSockets</li></ul>
-              <div class="project-card__links">
-                <a href="#">Live Demo →</a>
-                <a href="#">Code →</a>
-              </div>
-            </div>
-          </article>
-          <article class="project-card reveal">
-            <div class="project-card__thumb" data-emoji="🎵"></div>
-            <div class="project-card__body">
-              <h3>Waveform</h3>
-              <p>A collaborative music app with synced playlists and a custom audio engine.</p>
-              <ul class="tags"><li>Next.js</li><li>Web Audio</li><li>Supabase</li></ul>
-              <div class="project-card__links">
-                <a href="#">Live Demo →</a>
-                <a href="#">Code →</a>
-              </div>
-            </div>
-          </article>
-          <article class="project-card reveal">
-            <div class="project-card__thumb" data-emoji="🗺️"></div>
-            <div class="project-card__body">
-              <h3>Wander</h3>
-              <p>A travel-planning PWA with offline maps and AI-powered itinerary suggestions.</p>
-              <ul class="tags"><li>React</li><li>Mapbox</li><li>PWA</li></ul>
-              <div class="project-card__links">
-                <a href="#">Live Demo →</a>
-                <a href="#">Code →</a>
-              </div>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- Contact -->
+    <!-- ============================ Contact ============================ -->
     <section class="section contact" id="contact">
       <div class="container">
-        <header class="section__head reveal">
-          <span class="section__tag">04 — Contact</span>
-          <h2 class="section__title">Let's build something</h2>
-          <p class="section__lead">
-            Have a project in mind or just want to say hi? My inbox is always open.
-          </p>
-        </header>
-        <form class="contact__form reveal" id="contactForm" novalidate>
-          <div class="field">
-            <label for="name">Name</label>
-            <input type="text" id="name" name="name" placeholder="Jane Doe" required />
-            <small class="field__error" data-for="name"></small>
+        <div class="section__head center reveal">
+          <span class="status-badge"><span class="status-dot"></span>Quick Reply</span>
+          <h2 class="section__title">Let's create something <span class="grad">amazing</span></h2>
+          <p class="contact__lead">Got an app idea or a role in mind? I'm just one message away.</p>
+        </div>
+        <div class="contact__wrap reveal">
+          <form class="contact__form" id="contactForm" novalidate>
+            <div class="field">
+              <label for="name">Name</label>
+              <input type="text" id="name" name="name" placeholder="Sanjay chowdry" required />
+            </div>
+            <div class="field">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" placeholder="sanjaychowdry11@gmail.com" required />
+            </div>
+            <div class="field field--full">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" rows="5" placeholder="Tell me about your project..." required></textarea>
+            </div>
+            <button type="submit" class="btn btn--primary">Send Message <span class="btn__arrow">→</span></button>
+            <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
+          </form>
+          <div class="contact__details">
+            <span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m2 7 10 6 10-6"></path></svg>
+              <a href="mailto:sanjaychowdry11@gmail.com">sanjaychowdry11@gmail.com</a>
+            </span>
+            <span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+              <a href="https://www.google.com/maps/search/?api=1&amp;query=105%2C+pudhu+velliyam+palayam%2C+nathakadaiyur%2C+tiruppur+district+638108" target="_blank" rel="noopener noreferrer">Nathakadaiyur, Tamil Nadu</a>
+            </span>
           </div>
-          <div class="field">
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" placeholder="jane@example.com" required />
-            <small class="field__error" data-for="email"></small>
-          </div>
-          <div class="field field--full">
-            <label for="message">Message</label>
-            <textarea id="message" name="message" rows="5" placeholder="Tell me about your project..." required></textarea>
-            <small class="field__error" data-for="message"></small>
-          </div>
-          <button type="submit" class="btn btn--primary btn--block">Send Message</button>
-          <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
-        </form>
+        </div>
       </div>
     </section>
   </main>
 
   <footer class="footer">
-    <div class="container footer__inner">
-      <p>© <span id="year"></span> Alex Carter. Built with care.</p>
-      <a href="#home" class="footer__top">Back to top ↑</a>
-    </div>
+    <div class="container">Designed &amp; built by Sanjay chowdry · <span id="year"></span></div>
   </footer>
 
-  <script src="script.js"></script>
+  <!-- ============================ Chatbot ============================ -->
+  <div class="chatbot" id="chatbot">
+    <button class="chatbot__toggle" id="chatToggle" aria-label="Open chat" aria-expanded="false">
+      <span class="chatbot__ping" aria-hidden="true"><i></i><i></i><i></i></span>
+      <svg class="icon-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+      <svg class="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+    </button>
+    <div class="chatbot__panel" id="chatPanel" role="dialog" aria-label="Welcome chat" aria-hidden="true">
+      <div class="chatbot__header">
+        <span class="chatbot__avatar">S</span>
+        <div>
+          <strong>Sanjay's Assistant</strong>
+          <small><span class="status-dot"></span> Online now</small>
+        </div>
+        <button class="chatbot__close" id="chatClose" aria-label="Close chat">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div class="chatbot__body" id="chatBody" aria-live="polite"></div>
+      <form class="chatbot__input" id="chatForm">
+        <input type="text" id="chatName" placeholder="Type your name…" autocomplete="name" maxlength="40" aria-label="Your name" />
+        <button type="submit" aria-label="Send">→</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Dashboard design, full size">
+    <div class="iphone iphone--lg">
+      <div class="iphone__screen">
+        <img src="images/dashboard-screen.png" alt="Dashboard UI designed by Sanjay chowdry — full size" />
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      "use strict";
+      const $ = (s, c = document) => c.querySelector(s);
+      const $$ = (s, c = document) => [...c.querySelectorAll(s)];
+
+      /* ---- Mobile menu ---- */
+      const burger = $("#navBurger");
+      const navLinks = $("#navLinks");
+      const closeMenu = () => {
+        navLinks.classList.remove("open");
+        burger.classList.remove("open");
+        burger.setAttribute("aria-expanded", "false");
+      };
+      burger.addEventListener("click", () => {
+        const open = navLinks.classList.toggle("open");
+        burger.classList.toggle("open", open);
+        burger.setAttribute("aria-expanded", String(open));
+      });
+      $$(".nav__link").forEach((l) => l.addEventListener("click", closeMenu));
+
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      /* ---- Sticky nav + scroll parallax (layered depth) ---- */
+      const nav = $("#nav");
+      const scrim = $("#topScrim");
+      const heroInner = $(".hero__inner");
+      let ticking = false;
+      const onScroll = () => {
+        const y = window.scrollY;
+        nav.classList.toggle("scrolled", y > 24);
+        scrim.classList.toggle("show", y > 24);
+        if (!reduceMotion && !ticking) {
+          requestAnimationFrame(() => {
+            // Hero content drifts slower than the page → parallax depth
+            if (heroInner) heroInner.style.transform = `translateY(${y * 0.18}px)`;
+            ticking = false;
+          });
+          ticking = true;
+        }
+      };
+      window.addEventListener("scroll", onScroll, { passive: true });
+      onScroll();
+
+      /* ---- Active link highlighting ---- */
+      const links = new Map($$(".nav__link").map((l) => [l.getAttribute("href").slice(1), l]));
+      const sectionObserver = new IntersectionObserver(
+        (entries) => entries.forEach((e) => {
+          if (!e.isIntersecting) return;
+          links.forEach((l) => l.classList.remove("active"));
+          links.get(e.target.id)?.classList.add("active");
+        }),
+        { threshold: 0.5 }
+      );
+      $$("main section[id]").forEach((s) => sectionObserver.observe(s));
+
+      /* ---- Scroll reveal ---- */
+      const revealObserver = new IntersectionObserver(
+        (entries, obs) => entries.forEach((e) => {
+          if (!e.isIntersecting) return;
+          e.target.classList.add("visible");
+          obs.unobserve(e.target);
+        }),
+        { threshold: 0.12, rootMargin: "0px 0px -40px 0px" }
+      );
+      $$(".reveal").forEach((el) => revealObserver.observe(el));
+
+      /* ---- Hero cursor spotlight + parallax layers ---- */
+      const hero = $("#home");
+      const spotlight = $("#spotlight");
+      const orbs = $$(".aurora .orb-layer");
+      if (!reduceMotion) {
+        window.addEventListener("pointermove", (e) => {
+          // -0.5 .. 0.5 offset from screen center
+          const dx = e.clientX / window.innerWidth - 0.5;
+          const dy = e.clientY / window.innerHeight - 0.5;
+          requestAnimationFrame(() => {
+            orbs.forEach((orb) => {
+              const depth = parseFloat(orb.dataset.depth || "20");
+              orb.style.transform = `translate(${dx * depth}px, ${dy * depth}px)`;
+            });
+          });
+        }, { passive: true });
+      }
+      hero.addEventListener("pointermove", (e) => {
+        const r = hero.getBoundingClientRect();
+        spotlight.style.setProperty("--mx", ((e.clientX - r.left) / r.width) * 100 + "%");
+        spotlight.style.setProperty("--my", ((e.clientY - r.top) / r.height) * 100 + "%");
+      });
+
+      /* ---- 3D tilt on bento cards ---- */
+      if (!reduceMotion && !window.matchMedia("(hover: none)").matches) {
+        $$(".bento .card").forEach((card) => {
+          card.addEventListener("pointermove", (e) => {
+            const r = card.getBoundingClientRect();
+            const px = (e.clientX - r.left) / r.width - 0.5;
+            const py = (e.clientY - r.top) / r.height - 0.5;
+            card.style.transition = "transform 0.12s ease-out";
+            card.style.transform = `rotateY(${px * 9}deg) rotateX(${-py * 9}deg) translateY(-5px)`;
+          });
+          card.addEventListener("pointerleave", () => {
+            card.style.transition = "";
+            card.style.transform = "";
+          });
+        });
+      }
+
+      /* ---- Contact form validation ---- */
+      const form = $("#contactForm");
+      const status = $("#formStatus");
+      const isEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const name = $("#name").value.trim();
+        const email = $("#email").value.trim();
+        const message = $("#message").value.trim();
+        status.className = "form-status";
+
+        if (name.length < 2 || !isEmail(email) || message.length < 10) {
+          status.textContent = "Please fill in all fields with valid details.";
+          status.classList.add("error");
+          return;
+        }
+        status.textContent = "Sending…";
+        setTimeout(() => {
+          form.reset();
+          status.textContent = "Thanks! Your message has been sent. 🎉";
+          status.classList.add("success");
+        }, 800);
+      });
+
+      /* ---- Lightbox (full-size, crisp screenshot view) ---- */
+      const lightbox = $("#lightbox");
+      const iphoneBtn = $("#iphoneBtn");
+      const openLightbox = () => {
+        lightbox.classList.add("open");
+        lightbox.setAttribute("aria-hidden", "false");
+        document.body.style.overflow = "hidden";
+      };
+      const closeLightbox = () => {
+        lightbox.classList.remove("open");
+        lightbox.setAttribute("aria-hidden", "true");
+        document.body.style.overflow = "";
+      };
+      if (iphoneBtn) iphoneBtn.addEventListener("click", openLightbox);
+      lightbox.addEventListener("click", closeLightbox);
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && lightbox.classList.contains("open")) closeLightbox();
+      });
+
+      /* ---- Welcome chatbot ---- */
+      // Paste your Google Apps Script Web App URL below to collect names in a Sheet.
+      // Leave as-is to run the bot locally without saving (it still greets visitors).
+      const SHEET_ENDPOINT = "https://script.google.com/macros/s/AKfycbwi10sG3z1bKXdMAMjtkVctykDoIf17yW8MIJIe2sfxYtsb2rvfjItkziXCGEzPb7QZpw/exec";
+
+      const chatbot = $("#chatbot");
+      const chatToggle = $("#chatToggle");
+      const chatPanel = $("#chatPanel");
+      const chatClose = $("#chatClose");
+      const chatBody = $("#chatBody");
+      const chatForm = $("#chatForm");
+      const chatNameInput = $("#chatName");
+
+      const savedName = localStorage.getItem("visitorName");
+      let greeted = false;
+
+      const addMsg = (text, who) => {
+        const el = document.createElement("div");
+        el.className = "chat-msg chat-msg--" + who;
+        el.textContent = text;
+        chatBody.appendChild(el);
+        chatBody.scrollTop = chatBody.scrollHeight;
+        return el;
+      };
+
+      // Keep a local, de-duplicated log of every name typed in THIS browser,
+      // so you can view them on this machine (see the #visitors viewer below).
+      const logNameLocally = (name) => {
+        let log = [];
+        try { log = JSON.parse(localStorage.getItem("visitorLog") || "[]"); } catch (_) {}
+        const exists = log.some((v) => v.name.toLowerCase() === name.toLowerCase());
+        if (!exists) {
+          log.push({ name: name, when: new Date().toLocaleString() });
+          localStorage.setItem("visitorLog", JSON.stringify(log));
+        }
+      };
+
+      // Send a name to the Google Sheet (server handles dedup). Fire-and-forget.
+      const storeName = (name) => {
+        logNameLocally(name);
+        if (!SHEET_ENDPOINT || SHEET_ENDPOINT === "PASTE_YOUR_APPS_SCRIPT_URL_HERE") return;
+        fetch(SHEET_ENDPOINT, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify({ name: name }),
+        }).catch(() => {});
+      };
+
+      // Simple built-in viewer: open homepage.html#visitors to see the names
+      // collected in THIS browser (useful for testing the bot yourself).
+      const showVisitorList = () => {
+        let log = [];
+        try { log = JSON.parse(localStorage.getItem("visitorLog") || "[]"); } catch (_) {}
+        const rows = log.length
+          ? log.map((v, i) => (i + 1) + ". " + v.name + "  —  " + v.when).join("\n")
+          : "(no names collected in this browser yet)";
+        alert("Visitor names saved in this browser:\n\n" + rows +
+          "\n\nNote: this only shows names typed on THIS computer. Names from " +
+          "real visitors on your live site appear in your Google Sheet.");
+      };
+      if (location.hash === "#visitors") showVisitorList();
+      window.addEventListener("hashchange", () => {
+        if (location.hash === "#visitors") showVisitorList();
+      });
+
+      const showInput = (show) => {
+        chatForm.classList.toggle("hidden", !show);
+        if (show) setTimeout(() => chatNameInput.focus(), 200);
+      };
+
+      // Re-ask for a name on demand (returning visitor "Not you?" link / testing).
+      const promptForName = () => {
+        chatBody.innerHTML = "";
+        addMsg("Sure — what name should I save?", "bot");
+        showInput(true);
+      };
+
+      // Build the conversation depending on whether we already know this visitor.
+      const startConversation = () => {
+        if (greeted) return;
+        greeted = true;
+        chatbot.classList.add("greeted");
+        chatBody.innerHTML = "";
+        if (savedName) {
+          addMsg("Welcome back, " + savedName + "! 👋 Great to see you again — enjoy exploring my portfolio.", "bot");
+          showInput(false);
+          // Let a returning visitor (or you, while testing) enter a name again.
+          const again = document.createElement("button");
+          again.type = "button";
+          again.className = "chat-again";
+          again.textContent = "Not you? Enter a name";
+          again.addEventListener("click", () => { again.remove(); promptForName(); });
+          chatBody.appendChild(again);
+        } else {
+          addMsg("Hi there! 👋 Welcome to Sanjay's portfolio.", "bot");
+          setTimeout(() => addMsg("Before you explore — what's your name?", "bot"), 600);
+          showInput(true);
+        }
+      };
+
+      const openChat = () => {
+        chatbot.classList.add("open");
+        chatPanel.setAttribute("aria-hidden", "false");
+        chatToggle.setAttribute("aria-expanded", "true");
+        startConversation();
+      };
+      const closeChat = () => {
+        chatbot.classList.remove("open");
+        chatPanel.setAttribute("aria-hidden", "true");
+        chatToggle.setAttribute("aria-expanded", "false");
+      };
+
+      chatToggle.addEventListener("click", () => {
+        chatbot.classList.contains("open") ? closeChat() : openChat();
+      });
+      chatClose.addEventListener("click", closeChat);
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && chatbot.classList.contains("open")) closeChat();
+      });
+
+      chatForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const name = chatNameInput.value.trim().replace(/\s+/g, " ");
+        if (name.length < 2) {
+          chatNameInput.focus();
+          return;
+        }
+        addMsg(name, "user");
+        chatNameInput.value = "";
+        showInput(false);
+        localStorage.setItem("visitorName", name);
+        storeName(name);
+        setTimeout(() => {
+          addMsg("Nice to meet you, " + name + "! 🎉 Thanks for stopping by — feel free to look around. You can reach me anytime via the contact section below.", "bot");
+          // Let them read the greeting, then close the chat automatically.
+          setTimeout(closeChat, 2600);
+        }, 500);
+      });
+
+      // Auto-open for first-time visitors so they're greeted right away.
+      if (!savedName) {
+        setTimeout(openChat, 1400);
+      }
+
+      /* ---- Content protection (deterrent only) ---- */
+      const inField = (t) => t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA");
+      // Block right-click context menu (except inside form fields)
+      document.addEventListener("contextmenu", (e) => { if (!inField(e.target)) e.preventDefault(); });
+      // Block copy / cut on page content (still allowed inside form fields)
+      ["copy", "cut"].forEach((evt) =>
+        document.addEventListener(evt, (e) => { if (!inField(e.target)) e.preventDefault(); })
+      );
+      // Block dragging images out of the page
+      document.addEventListener("dragstart", (e) => {
+        if (e.target && e.target.tagName === "IMG") e.preventDefault();
+      });
+
+      /* ---- Disable zoom (deterrent) ---- */
+      // Block Ctrl/⌘ + mouse-wheel zoom
+      window.addEventListener("wheel", (e) => {
+        if (e.ctrlKey || e.metaKey) e.preventDefault();
+      }, { passive: false });
+      // Block Ctrl/⌘ + (+ / - / = / 0) keyboard zoom
+      window.addEventListener("keydown", (e) => {
+        if ((e.ctrlKey || e.metaKey) && ["+", "-", "=", "0"].includes(e.key)) {
+          e.preventDefault();
+        }
+      });
+      // Block trackpad / touch pinch-zoom gestures (Safari)
+      ["gesturestart", "gesturechange", "gestureend"].forEach((evt) =>
+        document.addEventListener(evt, (e) => e.preventDefault())
+      );
+
+      /* ---- Footer year ---- */
+      $("#year").textContent = new Date().getFullYear();
+    })();
+  </script>
 </body>
 </html>
