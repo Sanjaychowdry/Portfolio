@@ -709,29 +709,56 @@
         });
       }
 
-      /* ---- Contact form validation ---- */
+      /* ---- Contact form (delivers to inbox via FormSubmit) ---- */
       const form = $("#contactForm");
       const status = $("#formStatus");
       const isEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
+      // Messages are emailed here. Change this to receive at a different address.
+      const CONTACT_EMAIL = "sanjaychowdry11@gmail.com";
 
-      form.addEventListener("submit", (e) => {
+      form.addEventListener("submit", async (e) => {
         e.preventDefault();
         const name = $("#name").value.trim();
         const email = $("#email").value.trim();
         const message = $("#message").value.trim();
         status.className = "form-status";
 
-        if (name.length < 2 || !isEmail(email) || message.length < 10) {
+        if (name.length < 2 || !isEmail(email) || message.length < 3) {
           status.textContent = "Please fill in all fields with valid details.";
           status.classList.add("error");
           return;
         }
+
+        const submitBtn = $("#contactForm button[type='submit']");
         status.textContent = "Sending…";
-        setTimeout(() => {
-          form.reset();
-          status.textContent = "Thanks! Your message has been sent. 🎉";
-          status.classList.add("success");
-        }, 800);
+        if (submitBtn) submitBtn.disabled = true;
+
+        try {
+          const res = await fetch("https://formsubmit.co/ajax/" + encodeURIComponent(CONTACT_EMAIL), {
+            method: "POST",
+            headers: { "Content-Type": "application/json", Accept: "application/json" },
+            body: JSON.stringify({
+              name: name,
+              email: email,
+              message: message,
+              _subject: "New message from your portfolio site",
+              _template: "table",
+            }),
+          });
+          const data = await res.json();
+          if (data.success === "true" || data.success === true) {
+            form.reset();
+            status.textContent = "Thanks! Your message has been sent. 🎉";
+            status.classList.add("success");
+          } else {
+            throw new Error(data.message || "Send failed");
+          }
+        } catch (err) {
+          status.textContent = "Sorry, something went wrong. Please email " + CONTACT_EMAIL + " directly.";
+          status.classList.add("error");
+        } finally {
+          if (submitBtn) submitBtn.disabled = false;
+        }
       });
 
       /* ---- Lightbox (full-size, crisp screenshot view) ---- */
